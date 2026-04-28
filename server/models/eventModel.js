@@ -7,7 +7,7 @@ module.exports.list = async () => {
 };
 
 module.exports.listByUser = async (user_id) => {
-  const query = `SELECT events.*, COUNT(rsvps.user_id) AS rsvp_count FROM events JOIN rsvps ON events.event_id = rsvps.event_id WHERE events.user_id = $1 GROUP BY events.event_id ORDER BY events.event_id`;
+  const query = `SELECT events.*, COUNT(rsvps.user_id) AS rsvp_count FROM events LEFT JOIN rsvps ON events.event_id = rsvps.event_id WHERE events.user_id = $1 GROUP BY events.event_id ORDER BY events.event_id`;
   const { rows } = await pool.query(query, [user_id]);
   return rows;
 };
