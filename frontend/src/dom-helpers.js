@@ -3,59 +3,70 @@
 // ====================================
 
 // Views
-const allEventsView   = document.querySelector('#all-events-view');
+const allEventsView = document.querySelector('#all-events-view');
 const createEventView = document.querySelector('#create-event-view');
-const editEventView   = document.querySelector('#edit-event-view');
-const myEventsView    = document.querySelector('#my-events-view');
-const myRsvpsView     = document.querySelector('#my-rsvps-view');
-const accountView     = document.querySelector('#account-view');
-const allViews = [allEventsView, createEventView, editEventView, myEventsView, myRsvpsView, accountView];
+const editEventView = document.querySelector('#edit-event-view');
+const myEventsView = document.querySelector('#my-events-view');
+const myRsvpsView = document.querySelector('#my-rsvps-view');
+const accountView = document.querySelector('#account-view');
+const allViews = [
+  allEventsView,
+  createEventView,
+  editEventView,
+  myEventsView,
+  myRsvpsView,
+  accountView,
+];
 
 // Grids
-const eventsGrid   = document.querySelector('#events-grid');
+const eventsGrid = document.querySelector('#events-grid');
 const myEventsGrid = document.querySelector('#my-events-grid');
-const myRsvpsGrid  = document.querySelector('#my-rsvps-grid');
+const myRsvpsGrid = document.querySelector('#my-rsvps-grid');
 
 // Nav auth elements
-const navUsername    = document.querySelector('#nav-username');
-const navLoginBtn    = document.querySelector('#nav-login-btn');
+const navUsername = document.querySelector('#nav-username');
+const navLoginBtn = document.querySelector('#nav-login-btn');
 const navRegisterBtn = document.querySelector('#nav-register-btn');
-const navLogoutBtn   = document.querySelector('#nav-logout-btn');
+const navLogoutBtn = document.querySelector('#nav-logout-btn');
 
 // Nav link buttons (authenticated only)
 const navCreateEventBtn = document.querySelector('#nav-create-event-btn');
-const navMyEventsBtn    = document.querySelector('#nav-my-events-btn');
-const navMyRsvpsBtn     = document.querySelector('#nav-my-rsvps-btn');
-const navAccountBtn     = document.querySelector('#nav-account-btn');
+const navMyEventsBtn = document.querySelector('#nav-my-events-btn');
+const navMyRsvpsBtn = document.querySelector('#nav-my-rsvps-btn');
+const navAccountBtn = document.querySelector('#nav-account-btn');
 
 // Auth modal
-const authOverlay      = document.querySelector('#auth-overlay');
-const loginPanel       = document.querySelector('#login-panel');
-const registerPanel    = document.querySelector('#register-panel');
+const authOverlay = document.querySelector('#auth-overlay');
+const loginPanel = document.querySelector('#login-panel');
+const registerPanel = document.querySelector('#register-panel');
 
 // Edit form fields (pre-filled when opening the edit view)
-const editEventIdInput    = document.querySelector('#edit-event-id');
-const editTitleInput      = document.querySelector('#edit-title');
+const editEventIdInput = document.querySelector('#edit-event-id');
+const editTitleInput = document.querySelector('#edit-title');
 const editDescriptionInput = document.querySelector('#edit-description');
-const editDateInput       = document.querySelector('#edit-date');
-const editLocationInput   = document.querySelector('#edit-location');
-const editEventTypeInput  = document.querySelector('#edit-event-type');
+const editDateInput = document.querySelector('#edit-date');
+const editLocationInput = document.querySelector('#edit-location');
+const editEventTypeInput = document.querySelector('#edit-event-type');
 const editMaxCapacityInput = document.querySelector('#edit-max-capacity');
 
 // Account view
-const accountUsernameDisplay = document.querySelector('#account-username-display');
+const accountUsernameDisplay = document.querySelector(
+  '#account-username-display',
+);
 
 // Error / success elements
-const eventsError          = document.querySelector('#events-error');
-const myEventsError        = document.querySelector('#my-events-error');
-const myRsvpsError         = document.querySelector('#my-rsvps-error');
-const loginError           = document.querySelector('#login-error');
-const registerError        = document.querySelector('#register-error');
-const createEventError     = document.querySelector('#create-event-error');
-const editEventError       = document.querySelector('#edit-event-error');
-const updatePasswordError  = document.querySelector('#update-password-error');
-const updatePasswordSuccess = document.querySelector('#update-password-success');
-const deleteAccountError   = document.querySelector('#delete-account-error');
+const eventsError = document.querySelector('#events-error');
+const myEventsError = document.querySelector('#my-events-error');
+const myRsvpsError = document.querySelector('#my-rsvps-error');
+const loginError = document.querySelector('#login-error');
+const registerError = document.querySelector('#register-error');
+const createEventError = document.querySelector('#create-event-error');
+const editEventError = document.querySelector('#edit-event-error');
+const updatePasswordError = document.querySelector('#update-password-error');
+const updatePasswordSuccess = document.querySelector(
+  '#update-password-success',
+);
+const deleteAccountError = document.querySelector('#delete-account-error');
 
 // ====================================
 // Helpers
@@ -63,9 +74,13 @@ const deleteAccountError   = document.querySelector('#delete-account-error');
 
 // Adds 'T00:00:00' to prevent the date string from being parsed in UTC,
 // which can shift the displayed date back by one day.
-const formatDate = (dateStr) => new Date(`${dateStr}T00:00:00`).toLocaleDateString('en-US', {
-  weekday: 'short', year: 'numeric', month: 'short', day: 'numeric',
-});
+const formatDate = (dateStr) =>
+  new Date(`${dateStr}T00:00:00`).toLocaleDateString('en-US', {
+    weekday: 'short',
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  });
 
 const showEl = (el) => el.classList.remove('hidden');
 const hideEl = (el) => el.classList.add('hidden');
@@ -101,13 +116,13 @@ export const showAccountView = () => {
 
 // Pre-fills the edit form with the existing event data before showing the view.
 export const showEditEventView = (event) => {
-  editEventIdInput.value      = event.event_id;
-  editTitleInput.value        = event.title;
-  editDescriptionInput.value  = event.description || '';
-  editDateInput.value         = event.date;
-  editLocationInput.value     = event.location;
-  editEventTypeInput.value    = event.event_type;
-  editMaxCapacityInput.value  = event.max_capacity;
+  editEventIdInput.value = event.event_id;
+  editTitleInput.value = event.title;
+  editDescriptionInput.value = event.description || '';
+  editDateInput.value = event.date;
+  editLocationInput.value = event.location;
+  editEventTypeInput.value = event.event_type;
+  editMaxCapacityInput.value = event.max_capacity;
   allViews.forEach(hideEl);
   showEl(editEventView);
 };
@@ -163,38 +178,48 @@ export const showRegisterPanel = () => {
 // Error / Success Feedback
 // ====================================
 
-const showFeedback  = (el, msg) => { el.textContent = msg; showEl(el); };
-const clearFeedback = (el)      => { el.textContent = '';  hideEl(el); };
+const showFeedback = (el, msg) => {
+  el.textContent = msg;
+  showEl(el);
+};
+const clearFeedback = (el) => {
+  el.textContent = '';
+  hideEl(el);
+};
 
-export const showLoginError    = (msg) => showFeedback(loginError, msg);
-export const clearLoginError   = ()    => clearFeedback(loginError);
+export const showLoginError = (msg) => showFeedback(loginError, msg);
+export const clearLoginError = () => clearFeedback(loginError);
 
-export const showRegisterError  = (msg) => showFeedback(registerError, msg);
-export const clearRegisterError = ()    => clearFeedback(registerError);
+export const showRegisterError = (msg) => showFeedback(registerError, msg);
+export const clearRegisterError = () => clearFeedback(registerError);
 
-export const showCreateEventError  = (msg) => showFeedback(createEventError, msg);
-export const clearCreateEventError = ()    => clearFeedback(createEventError);
+export const showCreateEventError = (msg) =>
+  showFeedback(createEventError, msg);
+export const clearCreateEventError = () => clearFeedback(createEventError);
 
-export const showEditEventError  = (msg) => showFeedback(editEventError, msg);
-export const clearEditEventError = ()    => clearFeedback(editEventError);
+export const showEditEventError = (msg) => showFeedback(editEventError, msg);
+export const clearEditEventError = () => clearFeedback(editEventError);
 
-export const showEventsError  = (msg) => showFeedback(eventsError, msg);
-export const clearEventsError = ()    => clearFeedback(eventsError);
+export const showEventsError = (msg) => showFeedback(eventsError, msg);
+export const clearEventsError = () => clearFeedback(eventsError);
 
-export const showMyEventsError  = (msg) => showFeedback(myEventsError, msg);
-export const clearMyEventsError = ()    => clearFeedback(myEventsError);
+export const showMyEventsError = (msg) => showFeedback(myEventsError, msg);
+export const clearMyEventsError = () => clearFeedback(myEventsError);
 
-export const showMyRsvpsError  = (msg) => showFeedback(myRsvpsError, msg);
-export const clearMyRsvpsError = ()    => clearFeedback(myRsvpsError);
+export const showMyRsvpsError = (msg) => showFeedback(myRsvpsError, msg);
+export const clearMyRsvpsError = () => clearFeedback(myRsvpsError);
 
-export const showUpdatePasswordError   = (msg) => showFeedback(updatePasswordError, msg);
-export const clearUpdatePasswordError  = ()    => clearFeedback(updatePasswordError);
+export const showUpdatePasswordError = (msg) =>
+  showFeedback(updatePasswordError, msg);
+export const clearUpdatePasswordError = () =>
+  clearFeedback(updatePasswordError);
 export const showUpdatePasswordSuccess = (msg) => {
   showFeedback(updatePasswordSuccess, msg);
   setTimeout(() => clearFeedback(updatePasswordSuccess), 3000);
 };
 
-export const showDeleteAccountError = (msg) => showFeedback(deleteAccountError, msg);
+export const showDeleteAccountError = (msg) =>
+  showFeedback(deleteAccountError, msg);
 
 // ====================================
 // Account View
@@ -214,8 +239,13 @@ export const renderAccountView = (user) => {
 // options.showRsvp       — whether to show RSVP/Un-RSVP button
 // options.showEditDelete — whether to show Edit / Delete buttons
 const buildEventCard = (event, options = {}) => {
-  const { currentUserId, rsvpSet = new Set(), showRsvp = false, showEditDelete = false } = options;
-  const isRsvped  = rsvpSet.has(Number(event.event_id));
+  const {
+    currentUserId,
+    rsvpSet = new Set(),
+    showRsvp = false,
+    showEditDelete = false,
+  } = options;
+  const isRsvped = rsvpSet.has(Number(event.event_id));
   const rsvpCount = Number(event.rsvp_count) || 0;
 
   const card = document.createElement('div');
@@ -227,12 +257,18 @@ const buildEventCard = (event, options = {}) => {
     footerButtons.push(
       isRsvped
         ? `<button class="btn-secondary rsvp-btn un-rsvp" data-event-id="${event.event_id}">Un-RSVP</button>`
-        : `<button class="btn-primary rsvp-btn do-rsvp" data-event-id="${event.event_id}">RSVP</button>`
+        : rsvpCount < Number(event.max_capacity)
+          ? `<button class="btn-primary rsvp-btn do-rsvp" data-event-id="${event.event_id}">RSVP</button>`
+          : `<button class="btn-primary rsvp-btn disabledbtn" data-event-id="${event.event_id}">Event Full</button>`,
     );
   }
   if (showEditDelete) {
-    footerButtons.push(`<button class="btn-secondary edit-event-btn" data-event-id="${event.event_id}">Edit</button>`);
-    footerButtons.push(`<button class="btn-danger delete-event-btn" data-event-id="${event.event_id}">Delete</button>`);
+    footerButtons.push(
+      `<button class="btn-secondary edit-event-btn" data-event-id="${event.event_id}">Edit</button>`,
+    );
+    footerButtons.push(
+      `<button class="btn-danger delete-event-btn" data-event-id="${event.event_id}">Delete</button>`,
+    );
   }
 
   card.innerHTML = `
@@ -280,7 +316,8 @@ export const renderEvents = (events, currentUserId, rsvpedEvents = []) => {
 export const renderMyEvents = (events) => {
   myEventsGrid.innerHTML = '';
   if (!events.length) {
-    myEventsGrid.innerHTML = '<p class="empty-state">You haven\'t created any events yet.</p>';
+    myEventsGrid.innerHTML =
+      '<p class="empty-state">You haven\'t created any events yet.</p>';
     return;
   }
   events.forEach((event) => {
@@ -293,7 +330,8 @@ export const renderMyEvents = (events) => {
 export const renderMyRsvps = (events) => {
   myRsvpsGrid.innerHTML = '';
   if (!events.length) {
-    myRsvpsGrid.innerHTML = '<p class="empty-state">You haven\'t RSVPed to any events yet.</p>';
+    myRsvpsGrid.innerHTML =
+      '<p class="empty-state">You haven\'t RSVPed to any events yet.</p>';
     return;
   }
   events.forEach((event) => {

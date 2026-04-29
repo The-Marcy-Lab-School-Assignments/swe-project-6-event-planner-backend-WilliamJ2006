@@ -29,3 +29,24 @@ module.exports.rsvpsByUser = async (user_id) => {
   const { rows } = await pool.query(query, [user_id]);
   return rows;
 };
+
+// Stretch
+module.exports.getCapacityInfo = async (event_id) => {
+  const query = `SELECT max_capacity, 
+  (
+    SELECT COUNT(rsvp_id)
+    FROM rsvps
+    WHERE rsvps.event_id = events.event_id
+  ) AS rsvp_count 
+   FROM events
+   LEFT JOIN rsvps
+   ON events.event_id = rsvps.event_id
+   WHERE events.event_id = $1
+   GROUP BY events.event_id`;
+  const { rows } = await pool.query(query, [event_id]);
+  if (rows.length === 0) return false;
+  return (
+    parseInt(rows[0].rsvp_count ? rows[0].rsvp_count : 0) <
+    parseInt(rows[0].max_capacity)
+  );
+};

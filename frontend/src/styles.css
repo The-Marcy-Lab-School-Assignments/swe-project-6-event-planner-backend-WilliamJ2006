@@ -477,3 +477,11 @@ form {
    Utility
 ==================================== */
 .hidden { display: none !important; }
+
+.disabledbtn {
+  background-color: red;
+  opacity: .6;
+  cursor: not-allowed;
+}
+
+

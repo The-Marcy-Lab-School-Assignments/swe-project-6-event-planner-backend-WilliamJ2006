@@ -36,6 +36,7 @@ const {
   confirmRsvp,
   cancelRsvp,
   listConfirmedRsvps,
+  isFull,
 } = require('./controllers/rsvpControllers');
 
 const app = express();
@@ -92,7 +93,12 @@ app.get('/api/events', listEvents);
 app.post('/api/events', checkAuthentication, createEvent);
 app.patch('/api/events/:event_id', checkAuthentication, updateEvent);
 app.delete('/api/events/:event_id', checkAuthentication, deleteEvent);
-app.post(`/api/events/:event_id/rsvps`, checkAuthentication, confirmRsvp);
+app.post(
+  `/api/events/:event_id/rsvps`,
+  checkAuthentication,
+  isFull,
+  confirmRsvp,
+);
 app.delete(`/api/events/:event_id/rsvps`, checkAuthentication, cancelRsvp);
 
 // ====================================

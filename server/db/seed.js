@@ -44,6 +44,7 @@ const seed = async () => {
   const chrisHash = await bcrypt.hash('password', SALT_ROUNDS);
   const zaneHash = await bcrypt.hash('hunterpassword', SALT_ROUNDS);
   const gabeHash = await bcrypt.hash('password45', SALT_ROUNDS);
+  const jojoHash = await bcrypt.hash('jojolionPeak', SALT_ROUNDS);
 
   const insertUserSql =
     'INSERT INTO users (username, password_hash) VALUES ($1, $2) RETURNING user_id;';
@@ -54,6 +55,7 @@ const seed = async () => {
   const chrisResponse = await pool.query(insertUserSql, ['chris', chrisHash]);
   const zaneResponse = await pool.query(insertUserSql, ['zane', zaneHash]);
   const gabeResponse = await pool.query(insertUserSql, ['gabe', gabeHash]);
+  const jojoResponse = await pool.query(insertUserSql, ['jojo', jojoHash]);
 
   const aliceId = aliceResponse.rows[0].user_id;
   const bobId = bobResponse.rows[0].user_id;
@@ -61,6 +63,7 @@ const seed = async () => {
   const chrisId = chrisResponse.rows[0].user_id;
   const zaneId = zaneResponse.rows[0].user_id;
   const gabeId = gabeResponse.rows[0].user_id;
+  const jojoId = jojoResponse.rows[0].user_id;
 
   const eventsQuery =
     'INSERT INTO events (title, description, date, location, event_type, max_capacity, user_id) VALUES ($1, $2, $3, $4, $5, $6, $7)';
@@ -168,6 +171,7 @@ const seed = async () => {
   await pool.query(rsvpsQuery, [chrisId, 3]);
   await pool.query(rsvpsQuery, [zaneId, 5]);
   await pool.query(rsvpsQuery, [gabeId, 7]);
+  await pool.query(rsvpsQuery, [jojoId, 2]);
 
   console.log('Database seeded.');
 };

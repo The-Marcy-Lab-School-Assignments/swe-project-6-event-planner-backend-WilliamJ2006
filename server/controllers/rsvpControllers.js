@@ -31,4 +31,13 @@ const listConfirmedRsvps = async (req, res, next) => {
   }
 };
 
-module.exports = { confirmRsvp, cancelRsvp, listConfirmedRsvps };
+const isFull = async (req, res, next) => {
+  const eventId = req.params.event_id;
+  const check = await rsvpModel.getCapacityInfo(eventId);
+  if (!check) {
+    return res.status(400).send({ error: 'Event is full' });
+  }
+  next();
+};
+
+module.exports = { confirmRsvp, cancelRsvp, listConfirmedRsvps, isFull };

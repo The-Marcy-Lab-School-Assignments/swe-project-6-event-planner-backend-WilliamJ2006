@@ -68,3 +68,5 @@ module.exports.destroy = async (event_id) => {
   const { rows } = await pool.query(query, [event_id]);
   return rows[0] || null;
 };
+
+// Stretch
