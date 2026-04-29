@@ -484,4 +484,8 @@ form {
   cursor: not-allowed;
 }
 
+.disabledbtn:hover {
+  background-color: red;
+}
+
 
