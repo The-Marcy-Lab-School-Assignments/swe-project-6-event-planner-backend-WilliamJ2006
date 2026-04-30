@@ -29,7 +29,7 @@ module.exports.findByUsername = async (username) => {
 module.exports.create = async (username, password) => {
   const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
   const query = `INSERT INTO users (username, password_hash) VALUES ($1, $2) RETURNING user_id, username`;
-  const { rows } = await pool.query(query, [username, passwordHash]);
+  const { rows } = await pool.query(query, [username.trim(), passwordHash]);
   return rows[0];
 };
 
